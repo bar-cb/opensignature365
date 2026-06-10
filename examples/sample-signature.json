@@ -1,0 +1,20 @@
+{
+  "id": "demo",
+  "name": "Demo",
+  "description": "Example minimal signature.",
+  "status": "draft",
+  "created_at": "2025-11-19T10:00:00.000Z",
+  "updated_at": "2025-11-19T10:00:00.000Z",
+  "editor": {
+    "html": "<table><tr><td><strong>{{displayName}}</strong><br>{{jobTitle | fallback:\"Team member\"}}<br><a href=\"mailto:{{mail}}\">{{mail}}</a></td></tr></table>",
+    "text": "{{displayName}}\n{{jobTitle | fallback:\"Team member\"}}\n{{mail}}"
+  },
+  "settings": {
+    "deployment_mode": "exchange_transport_rule",
+    "disclaimer_location": "append",
+    "fallback_action": "wrap",
+    "apply_to": { "mode": "all_users" }
+  },
+  "assets": [],
+  "dynamic_tags": ["displayName", "jobTitle", "mail"]
+}

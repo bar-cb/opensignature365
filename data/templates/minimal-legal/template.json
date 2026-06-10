@@ -1,0 +1,16 @@
+{
+  "id": "minimal-legal",
+  "name": "Minimal + Legal Disclaimer",
+  "description": "Minimalist signature with a short legal disclaimer block.",
+  "category": "legal",
+  "html": "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"font-family:Georgia,serif;font-size:13px;color:#222;\">\n  <tr><td><strong>{{displayName}}</strong>{{#if jobTitle}} · {{jobTitle}}{{/if}}</td></tr>\n  <tr><td style=\"color:#555;\">{{companyName}}</td></tr>\n  <tr><td style=\"padding-top:10px;font-size:11px;color:#888;line-height:1.4;\">\n    This email and any attachments are confidential and intended solely for the named recipient.\n    If you received this in error, please notify the sender and delete the message.\n  </td></tr>\n</table>",
+  "text": "{{displayName}} · {{jobTitle}}\n{{companyName}}",
+  "required_tags": [
+    "displayName",
+    "companyName"
+  ],
+  "optional_tags": [
+    "jobTitle"
+  ],
+  "assets": []
+}

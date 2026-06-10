@@ -1,0 +1,17 @@
+node_modules/
+dist/
+*.log
+.env
+.env.local
+.DS_Store
+web/dist/
+web/node_modules/
+data/signatures/*/
+!data/signatures/.gitkeep
+data/reports/deployments/*/
+!data/reports/deployments/.gitkeep
+data/assets/uploads/
+coverage/
+.vite/
+
+prompt.txt

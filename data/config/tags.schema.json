@@ -1,0 +1,20 @@
+{
+  "tags": [
+    { "key": "displayName",      "label": "Full name",       "source": "graph.user.displayName",      "type": "string", "required": true },
+    { "key": "givenName",        "label": "First name",      "source": "graph.user.givenName",        "type": "string" },
+    { "key": "surname",          "label": "Last name",       "source": "graph.user.surname",          "type": "string" },
+    { "key": "jobTitle",         "label": "Job title",       "source": "graph.user.jobTitle",         "type": "string" },
+    { "key": "department",       "label": "Department",      "source": "graph.user.department",       "type": "string" },
+    { "key": "companyName",      "label": "Company",         "source": "graph.user.companyName",      "type": "string" },
+    { "key": "officeLocation",   "label": "Office",          "source": "graph.user.officeLocation",   "type": "string" },
+    { "key": "mail",             "label": "Email",           "source": "graph.user.mail",             "type": "string", "required": true },
+    { "key": "userPrincipalName","label": "UPN",             "source": "graph.user.userPrincipalName","type": "string" },
+    { "key": "businessPhones",   "label": "Business phones", "source": "graph.user.businessPhones",   "type": "array" },
+    { "key": "mobilePhone",      "label": "Mobile",          "source": "graph.user.mobilePhone",      "type": "string" },
+    { "key": "streetAddress",    "label": "Street",          "source": "graph.user.streetAddress",    "type": "string" },
+    { "key": "city",             "label": "City",            "source": "graph.user.city",             "type": "string" },
+    { "key": "state",            "label": "State",           "source": "graph.user.state",            "type": "string" },
+    { "key": "postalCode",       "label": "Postal code",     "source": "graph.user.postalCode",       "type": "string" },
+    { "key": "country",          "label": "Country",         "source": "graph.user.country",          "type": "string" }
+  ]
+}

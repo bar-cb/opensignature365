@@ -1,0 +1,15 @@
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,sans-serif;font-size:13px;color:#222;border:1px solid #e5e7eb;padding:10px;border-radius:4px;">
+  <tr>
+    <td style="vertical-align:top;padding-right:18px;">
+      <div style="font-size:15px;font-weight:bold;color:#111;">{{displayName}}</div>
+      <div style="color:#555;">{{jobTitle}}</div>
+      <div style="color:#555;">{{department}}</div>
+    </td>
+    <td style="vertical-align:top;border-left:1px solid #e5e7eb;padding-left:18px;">
+      <div><strong>{{companyName}}</strong></div>
+      <div><a href="mailto:{{mail}}" style="color:#0a66c2;">{{mail}}</a></div>
+      {{#if mobilePhone}}<div>{{mobilePhone}}</div>{{/if}}
+      {{#if officeLocation}}<div style="color:#888;">{{officeLocation}}</div>{{/if}}
+    </td>
+  </tr>
+</table>

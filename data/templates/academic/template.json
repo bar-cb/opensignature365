@@ -1,0 +1,17 @@
+{
+  "id": "academic",
+  "name": "Academic / University",
+  "description": "Faculty signature with department and office hours.",
+  "category": "academic",
+  "html": "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"font-family:Cambria,Georgia,serif;font-size:13px;color:#222;\">\n  <tr><td><strong>{{displayName}}, PhD</strong></td></tr>\n  <tr><td style=\"color:#555;\">{{jobTitle}} · {{department}}</td></tr>\n  <tr><td><strong>{{companyName}}</strong></td></tr>\n  <tr><td><a href=\"mailto:{{mail}}\" style=\"color:#7f1d1d;\">{{mail}}</a></td></tr>\n  <tr><td style=\"padding-top:6px;font-size:11px;color:#666;\">Office hours: Tue 14:00–16:00 · Room 4.12</td></tr>\n</table>",
+  "text": "{{displayName}}, PhD\n{{jobTitle}} · {{department}}\n{{companyName}} · {{mail}}",
+  "required_tags": [
+    "displayName",
+    "jobTitle",
+    "department",
+    "companyName",
+    "mail"
+  ],
+  "optional_tags": [],
+  "assets": []
+}

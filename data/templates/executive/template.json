@@ -1,0 +1,22 @@
+{
+  "id": "executive",
+  "name": "Executive Signature",
+  "description": "Formal executive signature with serif fonts and address block.",
+  "category": "executive",
+  "html": "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"font-family:Georgia,'Times New Roman',serif;font-size:13px;color:#222;\">\n  <tr><td style=\"font-size:17px;font-weight:bold;color:#111;letter-spacing:0.5px;\">{{displayName}}</td></tr>\n  <tr><td style=\"font-style:italic;color:#555;padding-bottom:6px;\">{{jobTitle}}</td></tr>\n  <tr><td><strong>{{companyName}}</strong></td></tr>\n  {{#if streetAddress}}<tr><td>{{streetAddress}}, {{postalCode}} {{city}}, {{country}}</td></tr>{{/if}}\n  <tr><td><a href=\"mailto:{{mail}}\" style=\"color:#0a66c2;\">{{mail}}</a>{{#if mobilePhone}} · {{mobilePhone}}{{/if}}</td></tr>\n</table>",
+  "text": "{{displayName}}\n{{jobTitle}}\n{{companyName}}\n{{mail}}",
+  "required_tags": [
+    "displayName",
+    "jobTitle",
+    "mail",
+    "companyName"
+  ],
+  "optional_tags": [
+    "mobilePhone",
+    "streetAddress",
+    "postalCode",
+    "city",
+    "country"
+  ],
+  "assets": []
+}

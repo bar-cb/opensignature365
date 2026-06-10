@@ -1,0 +1,18 @@
+{
+  "id": "plain-text-only",
+  "name": "Plain Text Only",
+  "description": "No HTML formatting — useful for compliance-heavy or mobile-first orgs.",
+  "category": "minimal",
+  "html": "<div style=\"font-family:Consolas,Menlo,monospace;font-size:13px;color:#222;white-space:pre-line;\">{{displayName}}\n{{jobTitle}} | {{companyName}}\n{{mail}}{{#if mobilePhone}}\n{{mobilePhone}}{{/if}}</div>",
+  "text": "{{displayName}}\n{{jobTitle}} | {{companyName}}\n{{mail}}\n{{mobilePhone | fallback:\"\"}}",
+  "required_tags": [
+    "displayName",
+    "jobTitle",
+    "mail",
+    "companyName"
+  ],
+  "optional_tags": [
+    "mobilePhone"
+  ],
+  "assets": []
+}

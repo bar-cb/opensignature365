@@ -1,0 +1,16 @@
+{
+  "id": "startup-founder",
+  "name": "Startup Founder",
+  "description": "Bold, opinionated layout with company tagline and product link.",
+  "category": "startup",
+  "html": "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"font-family:'Inter',Arial,sans-serif;font-size:13px;color:#111;\">\n  <tr><td><strong style=\"font-size:16px;\">{{displayName}}</strong> — {{jobTitle}}</td></tr>\n  <tr><td style=\"color:#555;padding-bottom:4px;\">{{companyName}} · \"Software that ships itself.\"</td></tr>\n  <tr><td><a href=\"https://example.com\" style=\"color:#dc2626;font-weight:bold;text-decoration:none;\">→ try the product</a></td></tr>\n  <tr><td style=\"padding-top:4px;color:#444;\"><a href=\"mailto:{{mail}}\" style=\"color:#111;\">{{mail}}</a></td></tr>\n</table>",
+  "text": "{{displayName}} — {{jobTitle}}\n{{companyName}}\n{{mail}}",
+  "required_tags": [
+    "displayName",
+    "jobTitle",
+    "mail",
+    "companyName"
+  ],
+  "optional_tags": [],
+  "assets": []
+}

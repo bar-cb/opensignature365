@@ -1,0 +1,21 @@
+{
+  "id": "logo-left-text-right",
+  "name": "Logo Left / Text Right",
+  "description": "Two-column layout with a logo on the left and details on the right.",
+  "category": "business",
+  "html": "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#222;\">\n  <tr>\n    <td style=\"vertical-align:top;padding-right:14px;border-right:1px solid #dddddd;\">\n      <img src=\"https://via.placeholder.com/96x96.png?text=LOGO\" width=\"96\" height=\"96\" alt=\"{{companyName}} logo\" style=\"display:block;border:0;\"/>\n    </td>\n    <td style=\"vertical-align:top;padding-left:14px;\">\n      <div style=\"font-size:15px;font-weight:bold;color:#111;\">{{displayName}}</div>\n      <div style=\"color:#555;padding:2px 0 6px;\">{{jobTitle}}{{#if department}}, {{department}}{{/if}}</div>\n      <div><strong>{{companyName}}</strong></div>\n      <div><a href=\"mailto:{{mail}}\" style=\"color:#0a66c2;text-decoration:none;\">{{mail}}</a></div>\n      {{#if mobilePhone}}<div>{{mobilePhone}}</div>{{/if}}\n    </td>\n  </tr>\n</table>",
+  "text": "{{displayName}} | {{jobTitle}}\n{{companyName}}\n{{mail}}",
+  "required_tags": [
+    "displayName",
+    "jobTitle",
+    "mail",
+    "companyName"
+  ],
+  "optional_tags": [
+    "mobilePhone",
+    "department"
+  ],
+  "assets": [
+    "company-logo"
+  ]
+}

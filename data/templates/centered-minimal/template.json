@@ -1,0 +1,16 @@
+{
+  "id": "centered-minimal",
+  "name": "Centered Minimal",
+  "description": "Centered single-column layout — good for newsletters and personal-style emails.",
+  "category": "minimal",
+  "html": "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;color:#222;text-align:center;\">\n  <tr><td align=\"center\"><strong style=\"font-size:15px;\">{{displayName}}</strong></td></tr>\n  <tr><td align=\"center\" style=\"color:#555;\">{{jobTitle}} · {{companyName}}</td></tr>\n  <tr><td align=\"center\"><a href=\"mailto:{{mail}}\" style=\"color:#0a66c2;text-decoration:none;\">{{mail}}</a></td></tr>\n</table>",
+  "text": "{{displayName}} · {{jobTitle}} · {{companyName}} · {{mail}}",
+  "required_tags": [
+    "displayName",
+    "jobTitle",
+    "mail",
+    "companyName"
+  ],
+  "optional_tags": [],
+  "assets": []
+}

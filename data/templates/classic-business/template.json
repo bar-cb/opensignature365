@@ -1,0 +1,20 @@
+{
+  "id": "classic-business",
+  "name": "Classic Business",
+  "description": "Simple professional signature with name, title, contact details.",
+  "category": "business",
+  "html": "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#222222;\">\n  <tr><td style=\"padding-bottom:4px;\"><strong style=\"font-size:15px;color:#111111;\">{{displayName}}</strong></td></tr>\n  <tr><td style=\"padding-bottom:4px;color:#555555;\">{{jobTitle}}{{#if department}} — {{department}}{{/if}}</td></tr>\n  <tr><td style=\"padding-bottom:2px;\"><strong>{{companyName}}</strong></td></tr>\n  <tr><td style=\"padding-bottom:2px;\"><a href=\"mailto:{{mail}}\" style=\"color:#0a66c2;text-decoration:none;\">{{mail}}</a></td></tr>\n  {{#if mobilePhone}}<tr><td style=\"padding-bottom:2px;\">Mobile: {{mobilePhone}}</td></tr>{{/if}}\n  {{#if officeLocation}}<tr><td style=\"color:#888888;\">{{officeLocation}}</td></tr>{{/if}}\n</table>",
+  "text": "{{displayName}}\n{{jobTitle}} | {{companyName}}\n{{mail}}\n{{mobilePhone | fallback:\"\"}}",
+  "required_tags": [
+    "displayName",
+    "jobTitle",
+    "mail"
+  ],
+  "optional_tags": [
+    "mobilePhone",
+    "officeLocation",
+    "department",
+    "companyName"
+  ],
+  "assets": []
+}

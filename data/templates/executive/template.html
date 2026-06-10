@@ -1,0 +1,7 @@
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:Georgia,'Times New Roman',serif;font-size:13px;color:#222;">
+  <tr><td style="font-size:17px;font-weight:bold;color:#111;letter-spacing:0.5px;">{{displayName}}</td></tr>
+  <tr><td style="font-style:italic;color:#555;padding-bottom:6px;">{{jobTitle}}</td></tr>
+  <tr><td><strong>{{companyName}}</strong></td></tr>
+  {{#if streetAddress}}<tr><td>{{streetAddress}}, {{postalCode}} {{city}}, {{country}}</td></tr>{{/if}}
+  <tr><td><a href="mailto:{{mail}}" style="color:#0a66c2;">{{mail}}</a>{{#if mobilePhone}} · {{mobilePhone}}{{/if}}</td></tr>
+</table>

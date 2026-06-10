@@ -1,0 +1,16 @@
+{
+  "id": "nonprofit",
+  "name": "Non-profit / NGO",
+  "description": "Friendly signature including a donation call-to-action.",
+  "category": "nonprofit",
+  "html": "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"font-family:Arial,sans-serif;font-size:13px;color:#222;\">\n  <tr><td><strong>{{displayName}}</strong></td></tr>\n  <tr><td style=\"color:#555;\">{{jobTitle}} · {{companyName}}</td></tr>\n  <tr><td><a href=\"mailto:{{mail}}\" style=\"color:#0a66c2;\">{{mail}}</a></td></tr>\n  <tr><td style=\"padding-top:8px;\">\n    <a href=\"https://example.org/donate\" style=\"background:#16a34a;color:#fff;padding:6px 12px;border-radius:3px;text-decoration:none;display:inline-block;\">💚 Donate</a>\n  </td></tr>\n  <tr><td style=\"padding-top:6px;font-size:11px;color:#888;\">Registered charity · Tax ID 00-0000000</td></tr>\n</table>",
+  "text": "{{displayName}} · {{jobTitle}}\n{{companyName}} · {{mail}}",
+  "required_tags": [
+    "displayName",
+    "jobTitle",
+    "mail",
+    "companyName"
+  ],
+  "optional_tags": [],
+  "assets": []
+}

@@ -1,0 +1,20 @@
+{
+  "id": "two-column-card",
+  "name": "Two-Column Card",
+  "description": "Card-style layout with contact details in two columns.",
+  "category": "business",
+  "html": "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"font-family:Arial,sans-serif;font-size:13px;color:#222;border:1px solid #e5e7eb;padding:10px;border-radius:4px;\">\n  <tr>\n    <td style=\"vertical-align:top;padding-right:18px;\">\n      <div style=\"font-size:15px;font-weight:bold;color:#111;\">{{displayName}}</div>\n      <div style=\"color:#555;\">{{jobTitle}}</div>\n      <div style=\"color:#555;\">{{department}}</div>\n    </td>\n    <td style=\"vertical-align:top;border-left:1px solid #e5e7eb;padding-left:18px;\">\n      <div><strong>{{companyName}}</strong></div>\n      <div><a href=\"mailto:{{mail}}\" style=\"color:#0a66c2;\">{{mail}}</a></div>\n      {{#if mobilePhone}}<div>{{mobilePhone}}</div>{{/if}}\n      {{#if officeLocation}}<div style=\"color:#888;\">{{officeLocation}}</div>{{/if}}\n    </td>\n  </tr>\n</table>",
+  "text": "{{displayName}} · {{jobTitle}}\n{{companyName}} · {{mail}}",
+  "required_tags": [
+    "displayName",
+    "jobTitle",
+    "mail",
+    "companyName"
+  ],
+  "optional_tags": [
+    "mobilePhone",
+    "department",
+    "officeLocation"
+  ],
+  "assets": []
+}

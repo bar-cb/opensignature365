@@ -1,0 +1,9 @@
+{
+  "version": "2025-11-19T10-04-12Z",
+  "signature_id": "demo",
+  "parent_version": null,
+  "published_by": "alice@host.local",
+  "notes": "First published version",
+  "sha256": "9c0c1e2a8b...e7",
+  "created_at": "2025-11-19T10:04:12.317Z"
+}

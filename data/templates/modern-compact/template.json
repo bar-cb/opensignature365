@@ -1,0 +1,18 @@
+{
+  "id": "modern-compact",
+  "name": "Modern Compact",
+  "description": "Single-line dense layout for small footprints.",
+  "category": "business",
+  "html": "<div style=\"font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:12px;color:#333333;border-left:3px solid #0a66c2;padding:6px 0 6px 12px;\">\n  <strong style=\"color:#111111;\">{{displayName}}</strong> · {{jobTitle}} · <strong>{{companyName}}</strong><br/>\n  <a href=\"mailto:{{mail}}\" style=\"color:#0a66c2;text-decoration:none;\">{{mail}}</a>{{#if mobilePhone}} · {{mobilePhone}}{{/if}}\n</div>",
+  "text": "{{displayName}} · {{jobTitle}} · {{companyName}} · {{mail}}",
+  "required_tags": [
+    "displayName",
+    "jobTitle",
+    "mail"
+  ],
+  "optional_tags": [
+    "mobilePhone",
+    "companyName"
+  ],
+  "assets": []
+}

@@ -1,0 +1,19 @@
+{
+  "deployment_id": "dep_2025-11-19T10-09-08Z_a1b2c3",
+  "signature_id": "demo",
+  "version": "2025-11-19T10-04-12Z",
+  "mode": "exchange_transport_rule",
+  "dry_run": true,
+  "target": { "type": "test", "count": 1 },
+  "exchange": {
+    "rule_name": "OpenSignature365 - demo - test",
+    "operation": "set_or_create",
+    "enabled": false
+  },
+  "validation": { "errors": [], "warnings": [] },
+  "result": {
+    "status": "success",
+    "message": "Dry-run completed successfully (no Exchange changes performed)."
+  },
+  "generated_at": "2025-11-19T10:09:08.482Z"
+}

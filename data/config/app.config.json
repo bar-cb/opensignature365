@@ -1,0 +1,9 @@
+{
+  "appName": "OpenSignature365",
+  "version": "0.1.0",
+  "deploymentDefaults": {
+    "mode": "exchange_transport_rule",
+    "disclaimerLocation": "append",
+    "fallbackAction": "wrap"
+  }
+}

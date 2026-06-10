@@ -1,0 +1,15 @@
+{
+  "id": "support-team",
+  "name": "Support Team",
+  "description": "Customer support signature with helpdesk URL and SLA reminder.",
+  "category": "support",
+  "html": "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#222;\">\n  <tr><td><strong style=\"font-size:14px;\">{{displayName}}</strong> — {{jobTitle}}</td></tr>\n  <tr><td>{{companyName}} · Customer Support</td></tr>\n  <tr><td style=\"padding:6px 0;\">\n    🎫 <a href=\"https://support.example.com\" style=\"color:#0a66c2;\">support.example.com</a> ·\n    ⏰ Mon–Fri 9:00–18:00 CET\n  </td></tr>\n  <tr><td style=\"font-size:11px;color:#888;\">Please keep the ticket reference in your reply so we can help you faster.</td></tr>\n</table>",
+  "text": "{{displayName}} — {{jobTitle}}\n{{companyName}} · support@example.com",
+  "required_tags": [
+    "displayName",
+    "jobTitle",
+    "companyName"
+  ],
+  "optional_tags": [],
+  "assets": []
+}

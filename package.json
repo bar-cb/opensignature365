@@ -1,0 +1,54 @@
+{
+  "name": "opensignature365",
+  "version": "0.1.0",
+  "description": "Open-source admin tool for creating, versioning, previewing, and deploying Microsoft 365 / Outlook email signatures across an Exchange Online tenant.",
+  "license": "AGPL-3.0-or-later",
+  "type": "module",
+  "bin": {
+    "opensignature365": "dist/cli/index.js",
+    "os365": "dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && chmod +x dist/cli/index.js || true",
+    "build:web": "cd web && npm run build",
+    "build:all": "npm run build && npm run build:web",
+    "dev:server": "tsx watch src/server/index.ts",
+    "dev:web": "cd web && npm run dev",
+    "dev": "concurrently -k -n srv,web -c blue,green \"npm run dev:server\" \"npm run dev:web\"",
+    "start": "node dist/server/index.js",
+    "cli": "tsx src/cli/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@azure/identity": "^4.4.1",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
+    "cors": "^2.8.5",
+    "dompurify": "^3.1.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "handlebars": "^4.7.8",
+    "jsdom": "^25.0.1",
+    "multer": "^1.4.5-lts.1",
+    "yargs": "^17.7.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsdom": "^21.1.7",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.5.5",
+    "@types/yargs": "^17.0.33",
+    "concurrently": "^9.0.1",
+    "eslint": "^9.11.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
+  },
+  "engines": {
+    "node": ">=18.17"
+  }
+}

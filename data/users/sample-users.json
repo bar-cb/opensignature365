@@ -1,0 +1,49 @@
+[
+  {
+    "displayName": "Jane Smith",
+    "givenName": "Jane",
+    "surname": "Smith",
+    "jobTitle": "Head of Sales",
+    "department": "Sales",
+    "companyName": "Example Corp",
+    "officeLocation": "Zurich HQ",
+    "mail": "jane.smith@example.com",
+    "userPrincipalName": "jane.smith@example.com",
+    "businessPhones": ["+41 44 000 00 01"],
+    "mobilePhone": "+41 79 000 00 01",
+    "streetAddress": "Bahnhofstrasse 1",
+    "city": "Zurich",
+    "state": "ZH",
+    "postalCode": "8001",
+    "country": "Switzerland"
+  },
+  {
+    "displayName": "Tom Müller",
+    "givenName": "Tom",
+    "surname": "Müller",
+    "jobTitle": "Senior Engineer",
+    "department": "Engineering",
+    "companyName": "Example Corp",
+    "officeLocation": "Berlin",
+    "mail": "tom.mueller@example.com",
+    "userPrincipalName": "tom.mueller@example.com",
+    "businessPhones": ["+49 30 0000 0002"],
+    "mobilePhone": "+49 151 000 00 02",
+    "city": "Berlin",
+    "country": "Germany"
+  },
+  {
+    "displayName": "Priya Patel",
+    "givenName": "Priya",
+    "surname": "Patel",
+    "jobTitle": "Customer Success Manager",
+    "department": "Support",
+    "companyName": "Example Corp",
+    "officeLocation": "London",
+    "mail": "priya.patel@example.com",
+    "userPrincipalName": "priya.patel@example.com",
+    "businessPhones": ["+44 20 0000 0003"],
+    "city": "London",
+    "country": "United Kingdom"
+  }
+]
