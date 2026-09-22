@@ -1,0 +1,30 @@
+services:
+  opensignature365:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: opensignature365:local
+    container_name: opensignature365
+
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    environment:
+      NODE_ENV: production
+      APP_HOST: 0.0.0.0
+      APP_PORT: 4070
+      APP_DATA_DIR: /app/data
+
+    ports:
+      - "4070:4070"
+
+    volumes:
+      - ./data:/app/data
+
+    security_opt:
+      - no-new-privileges:true
+
+    init: true

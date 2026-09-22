@@ -12,6 +12,7 @@ export interface ExchangeDeployOptions {
   text: string;
   environment: "test" | "production";
   dryRun: boolean;
+  testFromAddresses?: string[];
 }
 
 export interface ExchangeDeployResult {
@@ -90,13 +91,26 @@ export async function deployTransportRule(opts: ExchangeDeployOptions): Promise<
   fs.writeFileSync(htmlPath, opts.html);
 
   const settings = opts.signature.settings;
+  const applyToMode = opts.environment === "test" ? "test_users" : settings.apply_to.mode;
   const args: string[] = [
     "-RuleName", ruleName,
     "-HtmlPath", htmlPath,
     "-Location", settings.disclaimer_location,
     "-FallbackAction", settings.fallback_action,
-    "-ApplyToMode", settings.apply_to.mode,
+    "-ApplyToMode", applyToMode,
   ];
+  if (opts.environment === "test") {
+    const addresses = opts.testFromAddresses ?? [];
+    if (addresses.length !== 1) {
+      fs.rmSync(tmpDir, { recursive: true, force: true });
+      return {
+        ok: false, ruleName, operation: "set_or_create", enabled: false,
+        commandLog: "", message: "Test deployment requires exactly one sender address.",
+        errors: [`Expected exactly one test sender, received ${addresses.length}.`],
+      };
+    }
+    args.push("-FromAddresses", addresses[0]);
+  }
   if (settings.apply_to.group_id) args.push("-GroupId", settings.apply_to.group_id);
   if (settings.apply_to.domain) args.push("-Domain", settings.apply_to.domain);
   if (settings.apply_to.department) args.push("-Department", settings.apply_to.department);
@@ -110,7 +124,8 @@ export async function deployTransportRule(opts: ExchangeDeployOptions): Promise<
       `Would invoke New-TransportRule or Set-TransportRule with name "${ruleName}".`,
       `Disclaimer location: ${settings.disclaimer_location}`,
       `Fallback action: ${settings.fallback_action}`,
-      `Apply-to mode: ${settings.apply_to.mode}`,
+      `Apply-to mode: ${applyToMode}`,
+      ...(opts.environment === "test" ? [`Test sender: ${opts.testFromAddresses?.[0]}`] : []),
       `HTML payload bytes: ${opts.html.length}`,
     ].join("\n");
     fs.rmSync(tmpDir, { recursive: true, force: true });

@@ -3,6 +3,8 @@ import { validateForDeploy } from "./validation.js";
 import { deployTransportRule, newDeploymentId, buildRuleName } from "../microsoft/exchange.js";
 import { isoNow } from "./paths.js";
 import type { DeploymentReport } from "./types.js";
+import { getUser as getGraphUser } from "../microsoft/graph.js";
+import { renderSignature } from "./template-engine.js";
 
 export interface DeployArgs {
   signatureId: string;
@@ -23,8 +25,30 @@ export async function runDeploy(args: DeployArgs): Promise<DeployOutcome> {
 
   const requirePublic = (process.env.REQUIRE_PUBLIC_IMAGE_URLS ?? "true") === "true";
   const validation = validateForDeploy(signature, { requirePublicUrls: requirePublic });
+  let deploymentHtml = html;
+  let deploymentText = text;
+  let testFromAddresses: string[] | undefined;
   const deploymentId = newDeploymentId();
   const ruleName = buildRuleName(signature.id, args.target);
+
+  if (args.target === "test") {
+    testFromAddresses = users.testCsv();
+    if (testFromAddresses.length !== 1) {
+      validation.errors.push(
+        `Test deployment requires exactly one UPN in data/users/test-users.csv; found ${testFromAddresses.length}.`,
+      );
+    } else {
+      try {
+        const graphUser = await getGraphUser(testFromAddresses[0]);
+        const rendered = renderSignature(html, text, graphUser as any);
+        deploymentHtml = rendered.html;
+        deploymentText = rendered.text;
+        validation.warnings.push(...rendered.warnings);
+      } catch (error) {
+        validation.errors.push(`Could not load test user from Microsoft Graph: ${(error as Error).message}`);
+      }
+    }
+  }
 
   // Safety: production requires explicit confirmation.
   if (args.target === "production" && !args.dryRun) {
@@ -67,10 +91,11 @@ export async function runDeploy(args: DeployArgs): Promise<DeployOutcome> {
   const result = await deployTransportRule({
     signature,
     version,
-    html,
-    text,
+    html: deploymentHtml,
+    text: deploymentText,
     environment: args.target,
     dryRun: args.dryRun,
+    testFromAddresses,
   });
 
   const report: DeploymentReport = {
@@ -85,7 +110,7 @@ export async function runDeploy(args: DeployArgs): Promise<DeployOutcome> {
     result: { status: result.ok ? "success" : "failed", message: result.message },
     generated_at: isoNow(),
   };
-  const dir = reports.save(report, html, text, result.commandLog, result.errors);
+  const dir = reports.save(report, deploymentHtml, deploymentText, result.commandLog, result.errors);
 
   if (result.ok && !args.dryRun) {
     signatures.updateVersionStatus(signature.id, version, "deployed");

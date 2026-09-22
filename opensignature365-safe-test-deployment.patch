@@ -1,0 +1,145 @@
+diff --git a/scripts/powershell/deploy-transport-rule.ps1 b/scripts/powershell/deploy-transport-rule.ps1
+index b0c564d..108f132 100644
+--- a/scripts/powershell/deploy-transport-rule.ps1
++++ b/scripts/powershell/deploy-transport-rule.ps1
+@@ -35,6 +35,7 @@ param(
+     [string]$GroupId,
+     [string]$Domain,
+     [string]$Department,
++    [string[]]$FromAddresses,
+     [string]$Enabled = "false",
+     [switch]$WhatIf
+ )
+@@ -64,7 +65,13 @@ $fallbackValue = switch ($FallbackAction) {
+ $conditions = @{}
+ switch ($ApplyToMode) {
+     "all_users"   { }
+-    "test_users"  { } # The Node app must seed specific FromAddresses via -SentTo / -From; for now scope to admin only as a safety net.
++    "test_users"  {
++        if (-not $FromAddresses -or $FromAddresses.Count -ne 1) {
++            Write-Error "Test deployment requires exactly one -FromAddresses value."
++            exit 32
++        }
++        $conditions.From = @($FromAddresses)
++    }
+     "domain"      { if ($Domain) { $conditions.SenderDomainIs = @($Domain) } }
+     "department"  { if ($Department) { $conditions.FromMemberOf = $null; $conditions.SenderADAttributeContainsWords = @{Department=@($Department)} } }
+     "group"       { if ($GroupId) { $conditions.FromMemberOf = @($GroupId) } }
+diff --git a/src/core/deploy.ts b/src/core/deploy.ts
+index ea3eeca..985eb4c 100644
+--- a/src/core/deploy.ts
++++ b/src/core/deploy.ts
+@@ -3,6 +3,8 @@ import { validateForDeploy } from "./validation.js";
+ import { deployTransportRule, newDeploymentId, buildRuleName } from "../microsoft/exchange.js";
+ import { isoNow } from "./paths.js";
+ import type { DeploymentReport } from "./types.js";
++import { getUser as getGraphUser } from "../microsoft/graph.js";
++import { renderSignature } from "./template-engine.js";
+ 
+ export interface DeployArgs {
+   signatureId: string;
+@@ -23,9 +25,31 @@ export async function runDeploy(args: DeployArgs): Promise<DeployOutcome> {
+ 
+   const requirePublic = (process.env.REQUIRE_PUBLIC_IMAGE_URLS ?? "true") === "true";
+   const validation = validateForDeploy(signature, { requirePublicUrls: requirePublic });
++  let deploymentHtml = html;
++  let deploymentText = text;
++  let testFromAddresses: string[] | undefined;
+   const deploymentId = newDeploymentId();
+   const ruleName = buildRuleName(signature.id, args.target);
+ 
++  if (args.target === "test") {
++    testFromAddresses = users.testCsv();
++    if (testFromAddresses.length !== 1) {
++      validation.errors.push(
++        `Test deployment requires exactly one UPN in data/users/test-users.csv; found ${testFromAddresses.length}.`,
++      );
++    } else {
++      try {
++        const graphUser = await getGraphUser(testFromAddresses[0]);
++        const rendered = renderSignature(html, text, graphUser as any);
++        deploymentHtml = rendered.html;
++        deploymentText = rendered.text;
++        validation.warnings.push(...rendered.warnings);
++      } catch (error) {
++        validation.errors.push(`Could not load test user from Microsoft Graph: ${(error as Error).message}`);
++      }
++    }
++  }
++
+   // Safety: production requires explicit confirmation.
+   if (args.target === "production" && !args.dryRun) {
+     const allow = (process.env.ALLOW_PRODUCTION_DEPLOY ?? "false") === "true";
+@@ -67,10 +91,11 @@ export async function runDeploy(args: DeployArgs): Promise<DeployOutcome> {
+   const result = await deployTransportRule({
+     signature,
+     version,
+-    html,
+-    text,
++    html: deploymentHtml,
++    text: deploymentText,
+     environment: args.target,
+     dryRun: args.dryRun,
++    testFromAddresses,
+   });
+ 
+   const report: DeploymentReport = {
+@@ -85,7 +110,7 @@ export async function runDeploy(args: DeployArgs): Promise<DeployOutcome> {
+     result: { status: result.ok ? "success" : "failed", message: result.message },
+     generated_at: isoNow(),
+   };
+-  const dir = reports.save(report, html, text, result.commandLog, result.errors);
++  const dir = reports.save(report, deploymentHtml, deploymentText, result.commandLog, result.errors);
+ 
+   if (result.ok && !args.dryRun) {
+     signatures.updateVersionStatus(signature.id, version, "deployed");
+diff --git a/src/microsoft/exchange.ts b/src/microsoft/exchange.ts
+index cc31d07..0e53475 100644
+--- a/src/microsoft/exchange.ts
++++ b/src/microsoft/exchange.ts
+@@ -12,6 +12,7 @@ export interface ExchangeDeployOptions {
+   text: string;
+   environment: "test" | "production";
+   dryRun: boolean;
++  testFromAddresses?: string[];
+ }
+ 
+ export interface ExchangeDeployResult {
+@@ -90,13 +91,26 @@ export async function deployTransportRule(opts: ExchangeDeployOptions): Promise<
+   fs.writeFileSync(htmlPath, opts.html);
+ 
+   const settings = opts.signature.settings;
++  const applyToMode = opts.environment === "test" ? "test_users" : settings.apply_to.mode;
+   const args: string[] = [
+     "-RuleName", ruleName,
+     "-HtmlPath", htmlPath,
+     "-Location", settings.disclaimer_location,
+     "-FallbackAction", settings.fallback_action,
+-    "-ApplyToMode", settings.apply_to.mode,
++    "-ApplyToMode", applyToMode,
+   ];
++  if (opts.environment === "test") {
++    const addresses = opts.testFromAddresses ?? [];
++    if (addresses.length !== 1) {
++      fs.rmSync(tmpDir, { recursive: true, force: true });
++      return {
++        ok: false, ruleName, operation: "set_or_create", enabled: false,
++        commandLog: "", message: "Test deployment requires exactly one sender address.",
++        errors: [`Expected exactly one test sender, received ${addresses.length}.`],
++      };
++    }
++    args.push("-FromAddresses", addresses[0]);
++  }
+   if (settings.apply_to.group_id) args.push("-GroupId", settings.apply_to.group_id);
+   if (settings.apply_to.domain) args.push("-Domain", settings.apply_to.domain);
+   if (settings.apply_to.department) args.push("-Department", settings.apply_to.department);
+@@ -110,7 +124,8 @@ export async function deployTransportRule(opts: ExchangeDeployOptions): Promise<
+       `Would invoke New-TransportRule or Set-TransportRule with name "${ruleName}".`,
+       `Disclaimer location: ${settings.disclaimer_location}`,
+       `Fallback action: ${settings.fallback_action}`,
+-      `Apply-to mode: ${settings.apply_to.mode}`,
++      `Apply-to mode: ${applyToMode}`,
++      ...(opts.environment === "test" ? [`Test sender: ${opts.testFromAddresses?.[0]}`] : []),
+       `HTML payload bytes: ${opts.html.length}`,
+     ].join("\n");
+     fs.rmSync(tmpDir, { recursive: true, force: true });

@@ -35,6 +35,7 @@ param(
     [string]$GroupId,
     [string]$Domain,
     [string]$Department,
+    [string[]]$FromAddresses,
     [string]$Enabled = "false",
     [switch]$WhatIf
 )
@@ -64,7 +65,13 @@ $fallbackValue = switch ($FallbackAction) {
 $conditions = @{}
 switch ($ApplyToMode) {
     "all_users"   { }
-    "test_users"  { } # The Node app must seed specific FromAddresses via -SentTo / -From; for now scope to admin only as a safety net.
+    "test_users"  {
+        if (-not $FromAddresses -or $FromAddresses.Count -ne 1) {
+            Write-Error "Test deployment requires exactly one -FromAddresses value."
+            exit 32
+        }
+        $conditions.From = @($FromAddresses)
+    }
     "domain"      { if ($Domain) { $conditions.SenderDomainIs = @($Domain) } }
     "department"  { if ($Department) { $conditions.FromMemberOf = $null; $conditions.SenderADAttributeContainsWords = @{Department=@($Department)} } }
     "group"       { if ($GroupId) { $conditions.FromMemberOf = @($GroupId) } }
