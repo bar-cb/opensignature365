@@ -15,3 +15,8 @@ coverage/
 .vite/
 
 prompt.txt
+
+certs/
+*.pfx
+*.p12
+*.key

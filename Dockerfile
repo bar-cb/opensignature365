@@ -19,6 +19,10 @@ FROM node:22-bookworm-slim AS runtime
 
 ENV NODE_ENV=production
 ENV DEBIAN_FRONTEND=noninteractive
+ENV APP_HOST=0.0.0.0
+ENV APP_PORT=4070
+ENV APP_DATA_DIR=/app/data
+ENV EXO_POWERSHELL_BIN=pwsh
 
 WORKDIR /app
 
@@ -55,7 +59,8 @@ COPY --from=build /app/web/dist ./web/dist
 COPY --from=build /app/data ./data
 COPY --from=build /app/scripts ./scripts
 
-RUN chown -R node:node /app
+RUN mkdir -p /app/data /app/certs \
+    && chown -R node:node /app
 
 USER node
 

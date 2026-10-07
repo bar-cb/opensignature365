@@ -17,12 +17,16 @@ services:
       APP_HOST: 0.0.0.0
       APP_PORT: 4070
       APP_DATA_DIR: /app/data
+      APP_PUBLIC_BASE_URL: http://localhost:4070
+      EXO_POWERSHELL_BIN: pwsh
+      EXO_CERTIFICATE_PATH: /app/certs/opensignature365-exchange.pfx
 
     ports:
       - "4070:4070"
 
     volumes:
       - ./data:/app/data
+      - ./certs/opensignature365-exchange.pfx:/app/certs/opensignature365-exchange.pfx:ro
 
     security_opt:
       - no-new-privileges:true

@@ -75,12 +75,17 @@ EXO_APP_ID=<application-client-id>
 EXO_TENANT_DOMAIN=contoso.onmicrosoft.com
 EXO_CERTIFICATE_THUMBPRINT=<thumbprint>            # Windows / cert in store
 # or
-EXO_CERTIFICATE_PATH=/abs/path/to/opensig.pfx       # macOS / Linux
+EXO_CERTIFICATE_PATH=/abs/path/to/opensig.pfx       # macOS / Linux host process
 EXO_CERTIFICATE_PASSWORD=<password>
 EXO_POWERSHELL_BIN=pwsh
 ```
 
-Verify with `os365 test-exchange`. You should see `OrganizationConfig` JSON.
+When the app runs in Docker, `EXO_CERTIFICATE_PATH` must be the **container**
+path (`/app/certs/opensignature365-exchange.pfx`). Compose mounts the host PFX
+there read-only. See [docker.md](docker.md#certificate-paths).
+
+Verify with `os365 test-exchange` (or the Settings page / `test-exchange` API
+inside the container). You should see `OrganizationConfig` JSON.
 
 ## 4. Configure the test target list
 

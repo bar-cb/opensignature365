@@ -67,12 +67,28 @@ You created a draft and tried to deploy. Run `os365 publish --signature <id>` fi
 
 The Express server serves the API and (in production) the built UI on the same port. If you run the Vite dev server (`npm run dev:web`), it proxies `/api` to `http://127.0.0.1:4070` — make sure the API server is also running (`npm run dev:server` or both via `npm run dev`).
 
-## "EADDRINUSE: 127.0.0.1:4070"
+## "EADDRINUSE: 127.0.0.1:4070" or Compose "address already in use"
 
-Another process holds the port. Find and kill it:
+Identify the owner first. Do not kill PID 4070 blindly — it may be an old
+OpenSignature365 container, a second Docker daemon's `docker-proxy`, or an
+unrelated service.
 
 ```bash
-lsof -ti:4070 | xargs kill
+ss -ltnp | grep ':4070' || true
+docker ps -a --filter publish=4070
+systemctl is-active docker snap.docker.dockerd || true
 ```
 
-Or change `APP_PORT` in `.env`.
+- Same Compose project: `docker compose down` then `docker compose up -d`
+- Leftover OpenSignature365 container: inspect, then stop/remove **that** container only
+- Two Docker daemons (apt + Snap): see [docker.md](docker.md#troubleshooting-port-4070)
+- Unrelated process: leave it; change only the host port in `compose.yaml` if you must
+
+Or run a non-Docker server on another `APP_PORT` in `.env`.
+
+## Bind mount fails: `mkdir /var/projects: read-only file system`
+
+The host path exists. Snap Docker cannot bind-mount `/var/projects`. Use the
+official apt Docker Engine and keep `./data:/app/data`. Do not relocate
+project data into `$HOME` as a permanent workaround. See
+[docker.md](docker.md#troubleshooting-snap-confinement-and-bind-mounts).

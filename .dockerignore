@@ -15,7 +15,10 @@ coverage
 data/signatures/*
 !data/signatures/.gitkeep
 
-data/reports/deployments/*
-!data/reports/deployments/.gitkeep
-
+data/reports
 data/assets/uploads/*
+
+certs/
+*.pfx
+*.p12
+*.key

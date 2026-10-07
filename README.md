@@ -62,6 +62,20 @@ npm run build              # compiles TS server + builds web/dist
 node dist/server/index.js  # serves API + UI on http://127.0.0.1:4070
 ```
 
+### Docker (local Ubuntu)
+
+Use **one** official Docker Engine (apt, not Snap) and keep data in `./data`:
+
+```bash
+cp .env.example .env       # fill in Microsoft credentials; never commit .env
+docker compose up -d --build
+# UI + API: http://localhost:4070
+```
+
+Compose publishes `4070:4070`, bind-mounts `./data` to `/app/data`, and mounts
+the Exchange PFX read-only at `/app/certs/opensignature365-exchange.pfx`.
+Full install, backup, and troubleshooting notes: [docs/docker.md](docs/docker.md).
+
 Or use the CLI:
 
 ```bash
@@ -249,6 +263,7 @@ Everything is plain files. `git init` inside `data/` for instant audit history.
 - [docs/graph-permissions.md](docs/graph-permissions.md) — Required + optional permissions table
 - [docs/exchange-online-permissions.md](docs/exchange-online-permissions.md) — EXO roles, module install
 - [docs/deployment-guide.md](docs/deployment-guide.md) — Dry-run → test → production, rollback
+- [docs/docker.md](docs/docker.md) — Docker Engine, Compose, ports, data, certificates
 - [docs/troubleshooting.md](docs/troubleshooting.md) — Common errors
 - [SECURITY.md](SECURITY.md) — Reporting vulnerabilities, threat model
 - [CONTRIBUTING.md](CONTRIBUTING.md) — Dev setup, tests
